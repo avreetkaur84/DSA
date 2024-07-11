@@ -1,52 +1,68 @@
-//{ Driver Code Starts
-#include <bits/stdc++.h>
-
+#include <iostream>
+#include <cmath>
+#include <vector>
 using namespace std;
 
-
-// } Driver Code Ends
-// User function template for C++
-#include <cmath>
-
-class Solution {
-  public:
-    int largest(vector<int> &arr) {
-        int max = arr[0];
-        for(int i=1; i<arr.size(); i++) {
-            if(max<arr[i]) {
-                max = arr[i];
-            }
+class Solution
+{
+public:
+    bool isPrime(int N)
+    {
+        if (N == 1)
+            return false;
+        for (int i = 2; i <= sqrt(N); i++)
+        {
+            if (N % i == 0)
+                return false;
         }
-        return max;
+        return true;
     }
-    
-    int print2largest(vector<int> &arr) {
-        int max = largest(arr);
-        int secondMax = INT_MIN;
-        for(int i=0; i<arr.size(); i++) {
-            if(arr[i]<max && arr[i]>secondMax) {
-                secondMax = arr[i] ;
+
+    void primeList(int N, vector<int> &arr)
+    {
+        for (int i = 0; i < N; i++)
+        {
+            if (isPrime(i))
+            {
+                arr.push_back(i);
             }
         }
-        return secondMax;
+    }
+
+    string isSumOfTwo(int N, vector<int> &arr)
+    {
+        primeList(N, arr);
+        for (int i = 1; i < arr.size(); i++)
+        {
+            for (int j = 1; j < arr.size(); j++)
+            {
+                int value = arr[i] + arr[j];
+                if (value == N)
+                {
+                    cout << "Yes" << "  ";
+                    cout << arr[i] << "," << arr[j] << endl;
+                }
+            }
+        }
+        cout << "No" << "   " << endl;
+    }
+
+    void displayArr(int N, vector<int> &arr)
+    {
+        cout << "Array elements are: ";
+        for (int i = 0; i < arr.size(); i++)
+        {
+            cout << arr[i] << "  ";
+        }
+        cout << endl;
     }
 };
 
-//{ Driver Code Starts.
-
-int main() {
-   
+int main()
+{
     vector<int> arr;
-    for(int i=0; i<5; i++) {
-        cin>>arr[i];
-    }
-
+    int N = 4;
     Solution ob;
-    int ans = ob.print2largest(arr);
-    cout<<ans;
-        
-    
-    return 0;
+    ob.isSumOfTwo(N, arr);
+    ob.displayArr(N, arr);
 }
-
-// } Driver Code Ends

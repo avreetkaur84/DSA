@@ -3,66 +3,68 @@
 #include <vector>
 using namespace std;
 
-class Solution
+void output(vector<int> arr)
 {
-public:
-    bool isPrime(int N)
+    for (int i = 0; i < arr.size(); i++)
     {
-        if (N == 1)
-            return false;
-        for (int i = 2; i <= sqrt(N); i++)
-        {
-            if (N % i == 0)
-                return false;
-        }
-        return true;
+        cout << arr[i] << " ";
     }
+    cout << endl;
+}
 
-    void primeList(int N, vector<int> &arr)
+vector<int> findUnion(int arr1[], int arr2[], int n, int m)
     {
-        for (int i = 0; i < N; i++)
-        {
-            if (isPrime(i))
-            {
-                arr.push_back(i);
-            }
-        }
-    }
-
-    string isSumOfTwo(int N, vector<int> &arr)
-    {
-        primeList(N, arr);
-        for (int i = 1; i < arr.size(); i++)
-        {
-            for (int j = 1; j < arr.size(); j++)
-            {
-                int value = arr[i] + arr[j];
-                if (value == N)
-                {
-                    cout << "Yes" << "  ";
-                    cout << arr[i] << "," << arr[j] << endl;
+        //Your code here
+        //return vector with correct order of elements
+        vector<int> arr;
+        int i=0, j=0;
+        while(i<n-1 && j<m-1) {
+            if(i==0 && j==0) {
+                if(arr1[i]<=arr2[j]) {
+                    arr.push_back(arr1[i]);
+                    // cout<<arr1[i];
+                    i++;
+                }
+                else if(arr1[i]>=arr2[j]) {
+                     arr.push_back(arr2[j]);
+                     j++;
                 }
             }
+            
+            if(arr1[i]<=arr2[j] && arr.back()!=arr1[i]) {
+                arr.push_back(arr1[i]);
+                i++;
+            }
+            else if(arr1[i]>=arr2[j] && arr.back()!=arr2[j]) {
+                arr.push_back(arr2[j]);
+                j++;
+            }
+            
+            if(i==n && j!=m) {
+                if(arr.back()!=arr2[j]) {
+                    arr.push_back(arr2[j]);
+                    j++;
+                }
+            }
+            
+            if(j==m && i!=n) {
+                if(arr.back()!=arr1[i]) {
+                    arr.push_back(arr1[i]);
+                    i++;
+                }
+            }
+            
         }
-        cout << "No" << "   " << endl;
+        
+        return arr;
     }
-
-    void displayArr(int N, vector<int> &arr)
-    {
-        cout << "Array elements are: ";
-        for (int i = 0; i < arr.size(); i++)
-        {
-            cout << arr[i] << "  ";
-        }
-        cout << endl;
-    }
-};
 
 int main()
 {
     vector<int> arr;
-    int N = 4;
-    Solution ob;
-    ob.isSumOfTwo(N, arr);
-    ob.displayArr(N, arr);
+    int arr1[] = {5, 3};
+    int arr2[] = {1, 2, 3, 4, 5};
+    
+    arr = findUnion(arr1, arr2, sizeof(arr1), sizeof(arr2));
+    output(arr);
 }

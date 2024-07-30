@@ -3,6 +3,25 @@
 #include <vector>
 using namespace std;
 
+class Node {
+    public:
+        int data;
+        Node* next;
+        Node* back;
+
+        Node(int Data, Node* Next, Node* Back) {
+            data = Data;
+            next = Next;
+            back = Back;
+        }
+
+        Node(int Data) {
+            data = Data;
+            next = nullptr;
+            back = nullptr;
+        }
+};
+
 void output(vector<int> arr)
 {
     for (int i = 0; i < arr.size(); i++)
@@ -12,59 +31,37 @@ void output(vector<int> arr)
     cout << endl;
 }
 
-vector<int> findUnion(int arr1[], int arr2[], int n, int m)
-    {
-        //Your code here
-        //return vector with correct order of elements
-        vector<int> arr;
-        int i=0, j=0;
-        while(i<n-1 && j<m-1) {
-            if(i==0 && j==0) {
-                if(arr1[i]<=arr2[j]) {
-                    arr.push_back(arr1[i]);
-                    // cout<<arr1[i];
-                    i++;
-                }
-                else if(arr1[i]>=arr2[j]) {
-                     arr.push_back(arr2[j]);
-                     j++;
-                }
+ Node* arr2ll(Node* head, vector<int> arr) {
+            Node* mover = head;
+            Node* prev = head;
+            if(arr.size()==1) {
+                head->next = nullptr;
+                return head;
             }
-            
-            if(arr1[i]<=arr2[j] && arr.back()!=arr1[i]) {
-                arr.push_back(arr1[i]);
-                i++;
+            for(int i=1; i<arr.size(); i++) {
+                mover->next = new Node(arr[i], nullptr, prev);
+                prev = prev->next;
+                mover = mover->next;
             }
-            else if(arr1[i]>=arr2[j] && arr.back()!=arr2[j]) {
-                arr.push_back(arr2[j]);
-                j++;
-            }
-            
-            if(i==n && j!=m) {
-                if(arr.back()!=arr2[j]) {
-                    arr.push_back(arr2[j]);
-                    j++;
-                }
-            }
-            
-            if(j==m && i!=n) {
-                if(arr.back()!=arr1[i]) {
-                    arr.push_back(arr1[i]);
-                    i++;
-                }
-            }
-            
+            return head;
         }
+
+Node* deleteNode(Node* head, int x) {
+        Node* current = head;
+        Node* prev = NULL;
+
+        for(int i=1; i<x; i++) {
+            current = current->next;
+        }
+
         
-        return arr;
     }
 
 int main()
 {
-    vector<int> arr;
-    int arr1[] = {5, 3};
-    int arr2[] = {1, 2, 3, 4, 5};
-    
-    arr = findUnion(arr1, arr2, sizeof(arr1), sizeof(arr2));
+    vector<int> arr = {1, 2, 3, 4, 5};
+    Node* head = new Node(arr[0]);
+    arr2ll(head, arr);
+    deleteNode(head, 3);
     output(arr);
 }
